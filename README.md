@@ -1,31 +1,40 @@
 # NixOS-Splash-Plasma6
-![preview image of splash screen](https://github.com/nimrodium/NixOS-Splash-Plasma6/blob/main/contents/previews/splash.png "preview")
+![preview image of splash screen](./contents/previews/splash.png "preview")
 
-NixOS splash screen for KDE plasma6
+NixOS splash screen for KDE Plasma 6
 
 # Usage
-add NixOS-Splash-Plasma6 as a flake input to your system flake, usually `/etc/nixos/flake.nix`
+Add NixOS-Splash-Plasma6 as a flake input to your system flake, usually `/etc/nixos/flake.nix`
 ```nix
-   nixos-splash-plasma6 = {
-      url = "github:nimrodium/nixos-splash-plasma6";
-      inputs.nixpkgs.follows = "nixpkgs";
-   };
+nixos-splash-plasma6 = {
+   url = "github:nimrodium/nixos-splash-plasma6";
+   inputs.nixpkgs.follows = "nixpkgs";
+};
 ```
-add it as an argument to outputs or attach @inputs, or in SOME way get it accessible to the output function and then pass it to your nixosSystem 
+Add it as an argument to outputs or attach `@inputs`, or in SOME way get it accessible to the output function and then pass it to your `nixosSystem`
 ```nix
-specialArgs = {inherit nixos-splash-plasma6; }
+specialArgs = { inherit nixos-splash-plasma6; }
 ```
-or by just passing the entire inputs set. which is easier to use long term.
+or by just passing the entire inputs set (which is easier to use long-term).
 ```nix
-specialArgs = {inherit inputs; }
+specialArgs = { inherit inputs; }
 ```
-in your system's `configuration.nix` environment.systemPackages add
+
+In your system's `configuration.nix`, add the package to `environment.systemPackages`
 ```nix
 environment.systemPackages = with pkgs; [
   inputs.nixos-splash-plasma6.packages.${pkgs.system}.default
 ]
 ```
-then select it in kde settings.
+then select it in Plasma's settings.
+
+If you use [home-manager](https://github.com/nix-community/home-manager) with [plasma-manager](https://github.com/nix-community/plasma-manager/), you can select the splash screen declaratively like so:
+```nix
+programs.plasma.workspace.splashScreen = {
+   engine = "KSplashQML";
+   theme = "NixOS-Splash-Plasma6";
+};
+```
 
 # Customization
 
@@ -40,4 +49,7 @@ environment.systemPackages = with pkgs; [
   })
 ]
 ```
-> forked from https://github.com/smokey5787/EOS-Splash-Plasma6
+
+
+---
+forked from https://github.com/smokey5787/EOS-Splash-Plasma6
